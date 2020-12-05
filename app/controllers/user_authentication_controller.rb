@@ -42,8 +42,11 @@ class UserAuthenticationController < ApplicationController
     @user.password = params.fetch("query_password")
     @user.password_confirmation = params.fetch("query_password_confirmation")
     @user.username = params.fetch("query_username")
-    @user.private = params.fetch("query_private")
-
+    if params.fetch("query_private") == nil
+      @user.private = 0
+    else
+      @user.private = 1
+    end
     save_status = @user.save
 
     if save_status == true

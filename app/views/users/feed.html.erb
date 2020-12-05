@@ -1,3 +1,4 @@
+
 <h1><%= @the_user.username %></h1>
 <dl>
   <dt>Private</dt>
@@ -30,7 +31,14 @@
     </li>
   </ul>
 </nav>
-<h2>Own Photos (<%= @the_user.own_photos.count %>)</h2>
+
+<% feed_count = 0%>
+
+<% @the_user.following.each do |a_user|  %>
+  <% feed_count = feed_count + a_user.own_photos.count %>
+<% end %>
+
+<h2>Feed (<%= feed_count %>)</h2>
 <table border="1">
   <tbody><tr>
     <th>
@@ -55,8 +63,9 @@
 
     <th></th>
   </tr>
-<% @list_of_photos.all.each do |a_photo|  %>
+<% @the_user.following.each do |a_user|  %>
   <tr>
+    <% a_user.own_photos.each do |a_photo| %>
     <td>
       <img src="<%= a_photo.image %>">
     </td>
@@ -81,6 +90,9 @@
       <a href="/photos/<%= a_photo.id %>">
         Show details
       </a>
-    <% end %>
+    
     </td>
+    
   </tr>
+  <% end %>
+    <% end %>
