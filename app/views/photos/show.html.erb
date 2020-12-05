@@ -143,3 +143,35 @@
   </div>
 </div>
 <hr>
+
+<h2>Comments</h2>
+
+<table>
+  <tbody><tr>
+    <th>Commenter</th>
+    <th>Comment</th>
+    <th>Posted</th>
+  </tr>
+
+    <tr>
+      <td>
+        bob
+      </td>
+
+      <td>
+        Only the educated are free.
+      </td>
+
+      <td>
+        over 1 year ago
+      </td>
+    </tr>  
+    
+</tbody></table>
+
+<h3>Add a new comment</h3>
+
+<form action="/insert_comment" method="post" data-children-count="1">
+  <input type="hidden" value="<%= @the_photo.id %>" name="query_photo_id">
+  
+  <label for="query_body">Comment</label>

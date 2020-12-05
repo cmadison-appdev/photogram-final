@@ -51,6 +51,6 @@ class LikesController < ApplicationController
     the_photo_id = the_like.photo_id
     the_like.destroy
 
-    redirect_to("/photos/#{the_photo_id}", { :notice => "Like deleted successfully."} )
+    redirect_to("/", { :alert => "Like deleted successfully."} )
   end
 end
