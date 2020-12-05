@@ -22,6 +22,15 @@
           </a>
         </div>
       <% end %>
+      <% if params.fetch("username") == @current_user.username%>
+      <h4>Pending follow requests</h4>
+      <ul>
+      <% pending_request =  FollowRequest.where({ :status => "Pending"}).where({ :recipient_id => @current_user.id}) %>
+      <% pending_request.each do |a_request|%>
+      <%= a_request.username %>
+      <% end %>
+      <% end %>
+      </ul>
     <% end %>
     </dd>
     <dt>Following</dt>

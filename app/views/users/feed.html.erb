@@ -6,11 +6,7 @@
   <dt>Followers</dt>
     <dd>
       <%= @the_user.followers.count %>
-      <div>
-        <a href="/delete_follow_request/2408">
-          Unfollow
-        </a>
-      </div>
+      
     </dd>
   <dt>Following</dt>
     <dd><%= @the_user.following.count %></dd>
@@ -32,13 +28,12 @@
   </ul>
 </nav>
 
-<% feed_count = 0%>
-
-<% @the_user.following.each do |a_user|  %>
-  <% feed_count = feed_count + a_user.own_photos.count %>
-<% end %>
-
-<h2>Feed (<%= feed_count %>)</h2>
+<%= @the_user %>
+<%= @requests_accepted %>
+<%= @ids_followed %>
+<%= @users_followed %>
+<%= @list_of_photos %>
+<h2>Feed (<%= @list_of_photos.count %>)</h2>
 <table border="1">
   <tbody><tr>
     <th>
@@ -63,9 +58,9 @@
 
     <th></th>
   </tr>
-<% @the_user.following.each do |a_user|  %>
+<% @list_of_photos.each do |a_photo|  %>
   <tr>
-    <% a_user.own_photos.each do |a_photo| %>
+   
     <td>
       <img src="<%= a_photo.image %>">
     </td>
@@ -94,5 +89,5 @@
     </td>
     
   </tr>
-  <% end %>
+  
     <% end %>
