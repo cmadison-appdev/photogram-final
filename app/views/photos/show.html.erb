@@ -17,7 +17,7 @@
       <% if @current_user.id == @the_photo.owner.id%>
         <div>
           <a href="/delete_photo/<%= @the_photo.id %>">
-            Delete photo
+            Delete this photo
           </a>
         </div>
       </div>
@@ -87,7 +87,7 @@
       <% if @current_user == nil %>
          
       <% else %>
-      <% matching_likes = Like.where( :photo_id => @the_photo.id).where( :user_id => @current_user.id) %>
+      <% matching_likes = Like.where( :photo_id => @the_photo.id).where( :fan_id => @current_user.id) %>
       <% @the_like = matching_likes %>
         <% if @the_like.first == nil %>
           <form action="/insert_like" method="post">
@@ -165,7 +165,7 @@
       </td>
 
        <td>
-         over 1 year ago
+         <%= time_ago_in_words(a_comment.created_at) %> ago
        </td>
     </tr>  
     <% end %>
@@ -177,7 +177,11 @@
 <h3>Add a new comment</h3>
 
 <form action="/insert_comment" method="post" >
-  <input type="hidden" value="<%= @the_photo.id %>" name="query_photo_id">
-  
+  <input type="text" value="<%= @the_photo.id %>" name="query_photo_id">
+  <input type="text" value="<%= @current_user.id %>" name="query_author_id">
   <label for="query_body">Comment</label>
+  <textarea id="browser_comment" name="query_body" placeholder="Enter a comment..."></textarea>
+
+  <button>Add comment</button>
+</form>
 <% end %>
