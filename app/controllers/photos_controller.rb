@@ -13,8 +13,9 @@ class PhotosController < ApplicationController
     the_id = params.fetch("path_id")
 
     matching_photos = Photo.where({ :id => the_id })
-
     @the_photo = matching_photos.at(0)
+    matching_likes = Like.where( :photo_id => @the_photo.id).where( :user_id => @current_user.id)
+    @the_like = matching_likes
     @the_owner = @the_photo.owner.id
     render({ :template => "photos/show.html.erb" })
   end
@@ -22,7 +23,7 @@ class PhotosController < ApplicationController
   def create
     the_photo = Photo.new
     the_photo.caption = params.fetch("query_caption")
-    the_photo.image = params.fetch(:image)
+    the_photo.image = params.fetch("query_image")
     the_photo.owner_id = params.fetch("query_owner_id")
     # the_photo.location = params.fetch("query_location")
     # the_photo.likes_count = params.fetch("query_likes_count")
@@ -41,7 +42,7 @@ class PhotosController < ApplicationController
     the_photo = Photo.where({ :id => the_id }).at(0)
 
     the_photo.caption = params.fetch("query_caption")
-    the_photo.image = params.fetch(:image)
+    the_photo.image = params.fetch("query_image")
     the_photo.owner_id = params.fetch("query_owner_id")
     # the_photo.location = params.fetch("query_location")
     # the_photo.likes_count = params.fetch("query_likes_count")

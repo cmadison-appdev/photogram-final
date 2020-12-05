@@ -3,28 +3,26 @@
     <h1>
       Photo details
     </h1>
-
     <div>
       <div>
         <a href="/photos">
           Go back
         </a>
       </div>
-    <% if @current_user.id == @the_photo.owner.id%>
-      <div>
-        <a href="/delete_photo/<%= @the_photo.id %>">
-          Delete photo
-        </a>
+      <% if @current_user.id == @the_photo.owner.id%>
+        <div>
+          <a href="/delete_photo/<%= @the_photo.id %>">
+            Delete photo
+          </a>
+        </div>
       </div>
-    </div>
     <% end %>
-      <dt>
-        Image
-      </dt>
-      <dd>
-        <img src=<%= @the_photo.image %>>
-      </dd>
-
+    <dt>
+      Image
+    </dt>
+    <dd>
+      <img src=<%= @the_photo.image %>>
+    </dd>
     <dl>
       <dt>
         Caption
@@ -32,8 +30,6 @@
       <dd>
         <%= @the_photo.caption %>
       </dd>
-
-
       <dt>
         Owner
       </dt>
@@ -52,110 +48,98 @@
       <dd>
         <%= @the_photo.likes_count %>
       </dd>
-
       <dt>
         Comments count
       </dt>
       <dd>
         <%= @the_photo.comments_count %>
       </dd>
-
       <dt>
-      <% fan_count = @the_photo.likes.count %>
-        
+        <% fan_count = @the_photo.likes.count %>
         Fans (<%= fan_count %>)
       </dt>
       <dd>
-       <% photo_likes = Like.where ({ :photo_id => @the_photo.id})%>
+        <% photo_likes = Like.where ({ :photo_id => @the_photo.id})%>
         <% fan_ids = photo_likes.map_relation_to_array(:user_id)%>
         <% fans = String.new  %>
         <% fan_names = User.where({ :id => fan_ids}).map_relation_to_array(:username)%>
-        
         <% fan_names.each_with_index do |a_name, counter| %>
-          
           <% if fan_count <=1 %>
-              <%= a_name %> 
+            <%= a_name %>
           <% elsif counter <= fan_count %>
-              
-              <% if fan_count > counter + 1  %>
-                <%= a_name + ", "  %>
-              <% elsif  fan_count = counter +1 %>
-                <%= "and " + a_name  %>
-              <% end %>
-              
-          <% else  %>
-              
+            <% if fan_count > counter + 1  %>
+              <%= a_name + ", "  %>
+            <% elsif  fan_count = counter +1 %>
+              <%= "and " + a_name  %>
+            <% end %>
+          <% else %>
           <% end %>
         <% end %>
       </dd>
-
+      <dt>Add a fan</dt>
+      <dd>
+      
+       <% if @the_like.first == nil %>
+        <form action="/insert_like" method="post">
+          <input type="hidden" value="<%= @the_photo.id %>" name="query_photo_id">
+          <button>Like</button>
+        </form>
+      <% else %>
+        <a href="/delete_like/<%= @the_like.first.id %>">
+        Unlike
+      <% end %>
+      </a>
+      </dd>
     </dl>
   </div>
 </div>
-
 <hr>
-
-
 <div>
   <div>
     <h2>
       Edit photo
     </h2>
-
     <form action="/modify_photo/<%= @the_photo.id %>"  method="post" >
       <div>
         <label for="caption_box">
           Caption
         </label>
-
         <input type="text" id="caption_box" name="query_caption" value="<%= @the_photo.caption %>">
       </div>
-
       <div>
         <label for="image_box">
           Image
         </label>
-
         <input type="text" id="image_box" name="query_image" value="<%= @the_photo.image %>">
       </div>
-
       <div>
         <label for="owner_id_box">
           Owner
         </label>
-
         <input type="text" id="owner_id_box" name="query_owner_id" value="<%= @the_photo.owner_id %>">
       </div>
-
       <div>
         <label for="location_box">
           Location
         </label>
-
         <input type="text" id="location_box" name="query_location" value="<%= @the_photo.location %>">
       </div>
-
       <div>
         <label for="likes_count_box">
           Likes count
         </label>
-
         <input type="text" id="likes_count_box" name="query_likes_count" value="<%= @the_photo.likes_count %>">
       </div>
-
       <div>
         <label for="comments_count_box">
           Comments count
         </label>
-
         <input type="text" id="comments_count_box" name="query_comments_count" value="<%= @the_photo.comments_count %>">
       </div>
-
       <button>
         Update photo
       </button>
     </form>
   </div>
 </div>
-
 <hr>
