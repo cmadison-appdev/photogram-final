@@ -65,3 +65,4 @@ RUN /bin/bash -l -c "bundle install"
 
 RUN /bin/bash -l -c "curl https://cli-assets.heroku.com/install.sh | sh"
 
+RUN /bin/bash -l -c "gem install htmlbeautifier"

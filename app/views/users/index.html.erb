@@ -28,6 +28,15 @@
         </td>
 
         <td>
+        <% if @current_user == nil %>
+        <% else %>
+        <form action="/insert_follow_request" method="post">
+              <input type="hidden" name="query_recipient_id" value="<%= a_user.id %>">
+        <% end %>
+        <button>
+          Follow
+        </button>
+        </form>
         </td>
 
 

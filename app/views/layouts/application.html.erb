@@ -17,11 +17,14 @@
   <body>
   
   <ul>
-  <li> <% if @current_user == nil %>
-          <%= @current_user == nil %> 
+      <li>
+          <% if @current_user == nil %>
+          Signed out
           <% else %>
-          <%= @current_user %>
-          <% end %></li>
+          Signed in as: 
+          <%= @current_user.username %>
+          <% end %>
+          </li>
       <li>
         <a href="/users">
           All users
@@ -33,18 +36,35 @@
           All public photos
         </a>
       </li>
-
+      <% if @current_user == nil %>
+          
         <li>
           <a href="/user_sign_in">
             Sign in
           </a>
         </li>
-
+      
         <li>
           <a href="/user_sign_up">
             Sign up
           </a>
         </li>
+      
+          <% else %>
+        <li>
+          <a href="/edit_user_profile">
+          <%= @current_user.username %>
+          </a>
+        </li>
+        <li>
+          <a href="/user_sign_out">
+            Sign out
+          </a>                        
+        </li>
+
+
+          <% end %>
+
     </ul>
     <%= yield %>
   </body>
