@@ -1,0 +1,13 @@
+=> [32m#<User:0x000055728022e3c0[0m
+ id: [1;36mnil[0m,
+ email: [1;36mnil[0m,
+ password_digest: [1;36mnil[0m,
+ username: [1;36mnil[0m,
+ sent_follow_requests_count: [1;36mnil[0m,
+ received_follow_requests_count: [1;36mnil[0m,
+ own_photos_count: [1;36mnil[0m,
+ created_at: [1;36mnil[0m,
+ updated_at: [1;36mnil[0m,
+ private: [1;36mnil[0m,
+ likes_count: [1;36mnil[0m,
+ comments_count: [1;36mnil[0m[32m>[0m
