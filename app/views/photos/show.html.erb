@@ -1,3 +1,4 @@
+
 <div>
   <div>
     <h1>
@@ -9,6 +10,10 @@
           Go back
         </a>
       </div>
+      <% if @current_user == nil %>
+
+      <% else %>
+
       <% if @current_user.id == @the_photo.owner.id%>
         <div>
           <a href="/delete_photo/<%= @the_photo.id %>">
@@ -16,6 +21,7 @@
           </a>
         </div>
       </div>
+    <% end %>
     <% end %>
     <dt>
       Image
@@ -78,21 +84,31 @@
       </dd>
       <dt>Add a fan</dt>
       <dd>
-      
-       <% if @the_like.first == nil %>
-        <form action="/insert_like" method="post">
-          <input type="hidden" value="<%= @the_photo.id %>" name="query_photo_id">
-          <button>Like</button>
-        </form>
+      <% if @current_user == nil %>
+         
       <% else %>
-        <a href="/delete_like/<%= @the_like.first.id %>">
-        Unlike
+      <% matching_likes = Like.where( :photo_id => @the_photo.id).where( :user_id => @current_user.id) %>
+      <% @the_like = matching_likes %>
+        <% if @the_like.first == nil %>
+          <form action="/insert_like" method="post">
+            <input type="hidden" value="<%= @the_photo.id %>" name="query_photo_id">
+            <button>Like</button>
+          </form>
+        <% else %>
+          <a href="/delete_like/<%= @the_like.first.id %>">
+          Unlike
+        <% end %>
       <% end %>
       </a>
       </dd>
     </dl>
   </div>
 </div>
+<% if @current_user == nil %>
+
+      <% else %>
+
+      <% if @current_user.id == @the_photo.owner.id%>
 <hr>
 <div>
   <div>
@@ -118,32 +134,17 @@
         </label>
         <input type="text" id="owner_id_box" name="query_owner_id" value="<%= @the_photo.owner_id %>">
       </div>
-      <div>
-        <label for="location_box">
-          Location
-        </label>
-        <input type="text" id="location_box" name="query_location" value="<%= @the_photo.location %>">
-      </div>
-      <div>
-        <label for="likes_count_box">
-          Likes count
-        </label>
-        <input type="text" id="likes_count_box" name="query_likes_count" value="<%= @the_photo.likes_count %>">
-      </div>
-      <div>
-        <label for="comments_count_box">
-          Comments count
-        </label>
-        <input type="text" id="comments_count_box" name="query_comments_count" value="<%= @the_photo.comments_count %>">
-      </div>
+      
       <button>
         Update photo
       </button>
     </form>
   </div>
 </div>
-<hr>
 
+<hr>
+<% end %>
+      <% end %>
 <h2>Comments</h2>
 
 <table>
@@ -153,25 +154,30 @@
     <th>Posted</th>
   </tr>
 
+<%  @the_photo.comments.each do |a_comment| %>
     <tr>
       <td>
-        bob
+        <%= a_comment.commenter.username %>
       </td>
 
       <td>
-        Only the educated are free.
+        <%= a_comment.body %>
       </td>
 
-      <td>
-        over 1 year ago
-      </td>
+       <td>
+         over 1 year ago
+       </td>
     </tr>  
+    <% end %>
     
 </tbody></table>
+<% if @current_user == nil %>
 
+      <% else %>
 <h3>Add a new comment</h3>
 
-<form action="/insert_comment" method="post" data-children-count="1">
+<form action="/insert_comment" method="post" >
   <input type="hidden" value="<%= @the_photo.id %>" name="query_photo_id">
   
   <label for="query_body">Comment</label>
+<% end %>

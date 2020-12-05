@@ -14,8 +14,7 @@ class PhotosController < ApplicationController
 
     matching_photos = Photo.where({ :id => the_id })
     @the_photo = matching_photos.at(0)
-    matching_likes = Like.where( :photo_id => @the_photo.id).where( :user_id => @current_user.id)
-    @the_like = matching_likes
+    
     @the_owner = @the_photo.owner.id
     render({ :template => "photos/show.html.erb" })
   end
