@@ -1,8 +1,10 @@
 class PhotosController < ApplicationController
   def index
-    matching_photos = Photo.all
+    @public_users = User.where({ :private => false })
+    @public_ids = @public_users.map_relation_to_array(:id)
+    @matching_photos = Photo.where({ :owner => @public_ids})
 
-    @list_of_photos = matching_photos.order({ :created_at => :desc })
+    @list_of_photos = @matching_photos.order({ :created_at => :desc })
 
     render({ :template => "photos/index.html.erb" })
   end
@@ -13,18 +15,18 @@ class PhotosController < ApplicationController
     matching_photos = Photo.where({ :id => the_id })
 
     @the_photo = matching_photos.at(0)
-
+    @the_owner = @the_photo.owner.id
     render({ :template => "photos/show.html.erb" })
   end
 
   def create
     the_photo = Photo.new
     the_photo.caption = params.fetch("query_caption")
-    the_photo.image = params.fetch("query_image")
+    the_photo.image = params.fetch(:image)
     the_photo.owner_id = params.fetch("query_owner_id")
-    the_photo.location = params.fetch("query_location")
-    the_photo.likes_count = params.fetch("query_likes_count")
-    the_photo.comments_count = params.fetch("query_comments_count")
+    # the_photo.location = params.fetch("query_location")
+    # the_photo.likes_count = params.fetch("query_likes_count")
+    # the_photo.comments_count = params.fetch("query_comments_count")
 
     if the_photo.valid?
       the_photo.save
@@ -39,11 +41,11 @@ class PhotosController < ApplicationController
     the_photo = Photo.where({ :id => the_id }).at(0)
 
     the_photo.caption = params.fetch("query_caption")
-    the_photo.image = params.fetch("query_image")
+    the_photo.image = params.fetch(:image)
     the_photo.owner_id = params.fetch("query_owner_id")
-    the_photo.location = params.fetch("query_location")
-    the_photo.likes_count = params.fetch("query_likes_count")
-    the_photo.comments_count = params.fetch("query_comments_count")
+    # the_photo.location = params.fetch("query_location")
+    # the_photo.likes_count = params.fetch("query_likes_count")
+    # the_photo.comments_count = params.fetch("query_comments_count")
 
     if the_photo.valid?
       the_photo.save

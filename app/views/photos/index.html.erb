@@ -1,12 +1,13 @@
 <div>
   <div>
     <h1>
-      List of all photos
+      List of photos
     </h1>
   </div>
 </div>
-
-
+<%= @public_users %>
+<%= @public_ids %>
+<%= @matching_photos %>
 <% if @current_user == nil %>
 
 <% else %>
@@ -16,7 +17,17 @@
       Add a new photo
     </h2>
 
-    <form action="/insert_photo" method="post">
+    <form action="/insert_photo" method="post" class="form-horizontal" enctype="multipart/form-data">
+      
+
+      <div>
+        <label for="image">
+          Image
+        </label>
+
+        <input type="file" id="image" name="query_image" class="form-control">
+      </div>
+
       <div>
         <label for="caption_box">
           Caption
@@ -26,47 +37,15 @@
       </div>
 
       <div>
-        <label for="image_box">
-          Image
-        </label>
-
-        <input type="text" id="image_box" name="query_image">
-      </div>
-
-      <div>
         <label for="owner_id_box">
-          Owner
+          
         </label>
 
-        <input type="text" id="owner_id_box" name="query_owner_id">
-      </div>
-
-      <div>
-        <label for="location_box">
-          Location
-        </label>
-
-        <input type="text" id="location_box" name="query_location">
-      </div>
-
-      <div>
-        <label for="likes_count_box">
-          Likes count
-        </label>
-
-        <input type="text" id="likes_count_box" name="query_likes_count">
-      </div>
-
-      <div>
-        <label for="comments_count_box">
-          Comments count
-        </label>
-
-        <input type="text" id="comments_count_box" name="query_comments_count">
+        <input type="hidden" id="owner_id_box" name="query_owner_id" value=<%= @current_user.id %>>
       </div>
 
       <button>
-        Create photo
+        Add photo
       </button>
     </form>
   </div>

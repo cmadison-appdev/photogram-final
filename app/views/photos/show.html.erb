@@ -1,7 +1,7 @@
 <div>
   <div>
     <h1>
-      Photo #<%= @the_photo.id %> details
+      Photo details
     </h1>
 
     <div>
@@ -10,13 +10,20 @@
           Go back
         </a>
       </div>
-
+    <% if @current_user.id == @the_photo.owner.id%>
       <div>
         <a href="/delete_photo/<%= @the_photo.id %>">
           Delete photo
         </a>
       </div>
     </div>
+    <% end %>
+      <dt>
+        Image
+      </dt>
+      <dd>
+        <img src=<%= @the_photo.image %>>
+      </dd>
 
     <dl>
       <dt>
@@ -26,27 +33,19 @@
         <%= @the_photo.caption %>
       </dd>
 
-      <dt>
-        Image
-      </dt>
-      <dd>
-        <%= @the_photo.image %>
-      </dd>
 
       <dt>
         Owner
       </dt>
       <dd>
-        <%= @the_photo.owner_id %>
+        <%= @the_photo.owner.username %>
       </dd>
-
       <dt>
-        Location
+        Posted
       </dt>
       <dd>
-        <%= @the_photo.location %>
+        <%= time_ago_in_words(@the_photo.created_at) %> ago
       </dd>
-
       <dt>
         Likes count
       </dt>
@@ -62,18 +61,34 @@
       </dd>
 
       <dt>
-        Created at
+      <% fan_count = @the_photo.likes.count %>
+        
+        Fans (<%= fan_count %>)
       </dt>
       <dd>
-        <%= time_ago_in_words(@the_photo.created_at) %> ago
+       <% photo_likes = Like.where ({ :photo_id => @the_photo.id})%>
+        <% fan_ids = photo_likes.map_relation_to_array(:user_id)%>
+        <% fans = String.new  %>
+        <% fan_names = User.where({ :id => fan_ids}).map_relation_to_array(:username)%>
+        
+        <% fan_names.each_with_index do |a_name, counter| %>
+          
+          <% if fan_count <=1 %>
+              <%= a_name %> 
+          <% elsif counter <= fan_count %>
+              
+              <% if fan_count > counter + 1  %>
+                <%= a_name + ", "  %>
+              <% elsif  fan_count = counter +1 %>
+                <%= "and " + a_name  %>
+              <% end %>
+              
+          <% else  %>
+              
+          <% end %>
+        <% end %>
       </dd>
 
-      <dt>
-        Updated at
-      </dt>
-      <dd>
-        <%= time_ago_in_words(@the_photo.updated_at) %> ago
-      </dd>
     </dl>
   </div>
 </div>
