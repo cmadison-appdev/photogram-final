@@ -1,5 +1,5 @@
-<h1>List of users</h1>
-<table border="1">
+<h1 class="text-primary">List of users</h1>
+<table class="table">
   <tbody>
     <tr>
       <th>
@@ -37,7 +37,7 @@
                 </button>
               </form>
             <% elsif request.status == "accepted" %>
-                  <a href="/delete_follow_request/<%= a_user.id %>">
+                  <a type="button" class="btn btn-outline-danger" href="/delete_follow_request/<%= a_user.id %>">
                     Unfollow
                   </a>
             <% elsif request.status == "pending" %>
@@ -48,7 +48,7 @@
             <% else %>
               <form action="/insert_follow_request" method="post">
                 <input type="hidden" name="query_recipient_id" value="<%= a_user.id %>">
-                <button>
+                <button type="button" class="btn btn-secondary">
                   Follow
                 </button>
               </form>
